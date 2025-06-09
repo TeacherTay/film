@@ -1,42 +1,66 @@
-body {
+/* Reset e fundo de tela cheia */
+html, body {
   margin: 0;
   padding: 0;
-  font-family: "Segoe UI", sans-serif;
-  background: linear-gradient(120deg, #6a11cb 0%, #2575fc 100%);
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(135deg, #8a2be2, #da70d6, #ffb6c1);
+  background-size: 400% 400%;
+  animation: gradient 15s ease infinite;
+}
+
+@keyframes gradient {
+  0% {background-position: 0% 50%;}
+  50% {background-position: 100% 50%;}
+  100% {background-position: 0% 50%;}
+}
+
+#interface-p5 {
+  width: 100vw;
   height: 100vh;
+  position: relative;
 }
 
-canvas {
-  border-radius: 15px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-}
-
-h2, span, input, select {
-  font-family: Georgia, serif;
-  color: #fff;
-  margin: 10px;
-  display: inline-block;
+/* Estilos para elementos criados pelo p5.js */
+h2, span, input, select, a, button {
+  color: white;
+  font-family: 'Georgia', serif;
 }
 
 input, select {
-  padding: 5px;
-  border-radius: 5px;
-  border: 1px solid #ccc;
+  padding: 6px;
+  margin: 5px;
+  border-radius: 6px;
+  border: none;
 }
 
-button, a {
-  background-color: #fff;
-  color: #333;
-  padding: 8px 12px;
-  border-radius: 5px;
+button {
+  background-color: white;
+  color: #8a2be2;
+  font-weight: bold;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #f0f0f0;
+}
+
+a {
+  display: inline-block;
+  margin-top: 10px;
+  background: white;
+  padding: 8px 14px;
+  border-radius: 8px;
+  color: #8a2be2;
   text-decoration: none;
   font-weight: bold;
-  margin-top: 10px;
 }
 
-a:hover, button:hover {
-  background-color: #eee;
+a:hover {
+  background: #f0f0f0;
 }
