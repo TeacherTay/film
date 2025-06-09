@@ -1,0 +1,27 @@
+body {
+  margin: 0;
+  font-family: Georgia, serif;
+  background: #e9e9ff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+canvas {
+  border: 2px solid #888;
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(0, 0, 50, 0.3);
+}
+
+h2, span, input, select {
+  font-family: Georgia, serif;
+  margin: 10px;
+  display: inline-block;
+}
+
+input, select {
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid #aaa;
+}
