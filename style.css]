@@ -1,7 +1,8 @@
 body {
   margin: 0;
-  font-family: Georgia, serif;
-  background: #e9e9ff;
+  padding: 0;
+  font-family: "Segoe UI", sans-serif;
+  background: linear-gradient(120deg, #6a11cb 0%, #2575fc 100%);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -9,13 +10,13 @@ body {
 }
 
 canvas {
-  border: 2px solid #888;
-  border-radius: 10px;
-  box-shadow: 0 0 20px rgba(0, 0, 50, 0.3);
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
 }
 
 h2, span, input, select {
   font-family: Georgia, serif;
+  color: #fff;
   margin: 10px;
   display: inline-block;
 }
@@ -23,5 +24,19 @@ h2, span, input, select {
 input, select {
   padding: 5px;
   border-radius: 5px;
-  border: 1px solid #aaa;
+  border: 1px solid #ccc;
+}
+
+button, a {
+  background-color: #fff;
+  color: #333;
+  padding: 8px 12px;
+  border-radius: 5px;
+  text-decoration: none;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+a:hover, button:hover {
+  background-color: #eee;
 }

@@ -2,9 +2,10 @@ let campoGenero;
 let campoIdade;
 let tela = "inicio";
 let botaoComecar;
+let filmeAtual;
 
 function setup() {
-  createCanvas(800, 500);
+  createCanvas(800, 600);
   textFont("Georgia");
   botaoComecar = createButton("Começar");
   botaoComecar.position(width / 2 - 40, height / 2 + 50);
@@ -31,7 +32,7 @@ function draw() {
 
   noStroke();
   fill(255, 255, 255, 180);
-  stroke(120, 100, 255);
+  stroke(80, 80, 255);
   strokeWeight(2);
   rect(30, 30, width - 60, height - 60, 20);
   noStroke();
@@ -46,22 +47,43 @@ function draw() {
   } else if (tela === "principal") {
     let idade = int(campoIdade.value());
     let genero = campoGenero.value();
-    let filme = recomendarFilme(idade, genero);
+    filmeAtual = recomendarFilme(idade, genero);
 
     fill(30, 0, 90);
     textAlign(CENTER, TOP);
-    textSize(24);
-    text(filme.titulo, width / 2, 50);
+    textSize(26);
+    text(filmeAtual.titulo, width / 2, 40);
 
     textSize(16);
     textAlign(LEFT, TOP);
-    text(filme.sinopse, 50, 100, 700);
+    text(filmeAtual.sinopse, 50, 100, 400);
+
+    // imagem
+    if (filmeAtual.imagem) {
+      loadImage(filmeAtual.imagem, img => {
+        image(img, 480, 100, 250, 150);
+      });
+    }
+
+    // link trailer
+    if (filmeAtual.trailer) {
+      let link = createA(filmeAtual.trailer, "Ver Trailer", "_blank");
+      link.position(50, 280);
+      link.style("background-color", "#fff");
+      link.style("padding", "8px 12px");
+      link.style("border-radius", "5px");
+      link.style("text-decoration", "none");
+      link.style("color", "#333");
+    }
+
+    // impedir múltiplos links
+    tela = "finalizado";
   }
 }
 
 function drawGradient() {
   for (let y = 0; y < height; y++) {
-    let c = lerpColor(color(100, 0, 150), color(200, 180, 255), y / height);
+    let c = lerpColor(color(50, 0, 150), color(200, 180, 255), y / height);
     stroke(c);
     line(0, y, width, y);
   }
@@ -70,25 +92,34 @@ function drawGradient() {
 function recomendarFilme(idade, genero) {
   let filmes = {
     "Animação": [
-      { titulo: "Aventuras Coloridas", classificacao: "Livre", idadeMin: 0, sinopse: "Um mundo mágico cheio de criaturas divertidas." },
-      { titulo: "Viagem Encantada", classificacao: "10 anos", idadeMin: 10, sinopse: "Uma jovem descobre um portal secreto." },
-      { titulo: "O Reino Esquecido", classificacao: "12 anos", idadeMin: 12, sinopse: "Um garoto precisa salvar um reino antigo." },
-      { titulo: "Heróis da Galáxia", classificacao: "14 anos", idadeMin: 14, sinopse: "Ação e coragem em uma missão intergaláctica." },
-      { titulo: "Cidade Invisível", classificacao: "16 anos", idadeMin: 16, sinopse: "Animação sombria sobre um mundo secreto." },
+      {
+        titulo: "Divertida Mente",
+        classificacao: "Livre",
+        idadeMin: 0,
+        sinopse: "As emoções de uma garota ganham vida em uma divertida jornada.",
+        imagem: "https://upload.wikimedia.org/wikipedia/pt/3/39/Inside_Out_p%C3%B4ster.png",
+        trailer: "https://www.youtube.com/watch?v=JYpD2L_8jG0"
+      }
     ],
     "Romance": [
-      { titulo: "Amor de Verão", classificacao: "Livre", idadeMin: 0, sinopse: "Dois jovens se conhecem nas férias." },
-      { titulo: "Corações em Paris", classificacao: "10 anos", idadeMin: 10, sinopse: "Um romance inesperado na cidade luz." },
-      { titulo: "Promessa de Outono", classificacao: "12 anos", idadeMin: 12, sinopse: "Segredos do passado voltam à tona." },
-      { titulo: "Além do Destino", classificacao: "14 anos", idadeMin: 14, sinopse: "Um casal tenta mudar o futuro." },
-      { titulo: "Noite sem Fim", classificacao: "16 anos", idadeMin: 16, sinopse: "Amor proibido e decisões difíceis." },
+      {
+        titulo: "A Cinco Passos de Você",
+        classificacao: "12 anos",
+        idadeMin: 12,
+        sinopse: "Dois adolescentes com fibrose cística se apaixonam apesar da distância obrigatória.",
+        imagem: "https://upload.wikimedia.org/wikipedia/pt/e/e1/Five_Feet_Apart.png",
+        trailer: "https://www.youtube.com/watch?v=FeA9Bse5nMk"
+      }
     ],
     "Terror": [
-      { titulo: "Sombra da Meia-Noite", classificacao: "Livre", idadeMin: 0, sinopse: "Assombros leves para os pequenos corajosos." },
-      { titulo: "A Vila Silenciosa", classificacao: "10 anos", idadeMin: 10, sinopse: "Mistérios em uma vila isolada." },
-      { titulo: "Olhos na Escuridão", classificacao: "12 anos", idadeMin: 12, sinopse: "Um garoto sente presenças em sua casa." },
-      { titulo: "Espelhos Partidos", classificacao: "14 anos", idadeMin: 14, sinopse: "Reflexos que revelam segredos sombrios." },
-      { titulo: "A Maldição do Lago", classificacao: "16 anos", idadeMin: 16, sinopse: "Lenda de terror revive entre os jovens." },
+      {
+        titulo: "Coraline e o Mundo Secreto",
+        classificacao: "10 anos",
+        idadeMin: 10,
+        sinopse: "Coraline descobre um mundo alternativo que esconde segredos sombrios.",
+        imagem: "https://upload.wikimedia.org/wikipedia/pt/6/6f/Coraline_poster.jpg",
+        trailer: "https://www.youtube.com/watch?v=m9bOpeuvNwY"
+      }
     ]
   };
 
@@ -101,6 +132,8 @@ function recomendarFilme(idade, genero) {
 
   return {
     titulo: "Nenhum filme disponível",
-    sinopse: "Nenhum filme encontrado para essa idade e gênero."
+    sinopse: "Nenhum filme encontrado para essa idade e gênero.",
+    imagem: "",
+    trailer: ""
   };
 }
