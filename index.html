@@ -14,15 +14,15 @@
     <h1>Catálogo de Filmes</h1>
     <div class="idade-input">
       <label for="idade">Digite sua idade:</label>
-      <input type="number" id="idade" name="idade">
+      <input type="number" id="idade" name="idade" min="0" placeholder="Ex: 14">
       <button onclick="validarIdade()">Confirmar</button>
     </div>
   </header>
 
   <nav id="menu-generos" class="oculto">
-    <button onclick="mostrarFilmes('genero1')">Gênero 1</button>
-    <button onclick="mostrarFilmes('genero2')">Gênero 2</button>
-    <button onclick="mostrarFilmes('genero3')">Gênero 3</button>
+    <button onclick="mostrarFilmes('terror')">Terror</button>
+    <button onclick="mostrarFilmes('comedia')">Comédia</button>
+    <button onclick="mostrarFilmes('drama')">Drama</button>
   </nav>
 
   <main id="conteudo-filmes"></main>
