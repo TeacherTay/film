@@ -21,3 +21,4 @@ const filmes = {
     { nome: 'A Onda', imagem: '', classificacao: '16', ano: 2008, duracao: '1h47min', sinopse: 'Um professor ensina sobre regimes autoritários e, sem perceber, cria um movimento estudantil que foge de controle, mostrando como o fascismo pode renascer.', trailer: '' }
   ]
 };
+
