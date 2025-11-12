@@ -1,5 +1,7 @@
+//script.js
 const filmes = {
   terror: [
+
     { nome: 'A Casa Monstro', imagem: '', classificacao: 'Livre', ano: 2006, duracao: '1h31min', sinopse: 'Nenhum adulto acredita quando três adolescentes falam que uma casa no bairro é uma criatura perigosa. Com o Dia das Bruxas se aproximando, eles têm que descobrir uma forma de destruir a casa antes que ela faça mal a crianças inocentes.', trailer: '' },
     { nome: 'Coraline e o Mundo Secreto', imagem: '', classificacao: '10', ano: 2009, duracao: '1h40min', sinopse: 'Enquanto explora sua nova casa à noite, Coraline descobre uma porta secreta que contém um mundo parecido com o dela, porém melhor em muitas maneiras. Logo percebe que segredos estranhos estão em ação, e que a outra mãe tenta mantê-la eternamente nesse mundo paralelo.', trailer: '' },
     { nome: 'A Bruxa de Blair', imagem: '', classificacao: '12', ano: 1999, duracao: '1h21min', sinopse: 'Um grupo de três jovens cineastas desaparece ao entrar em uma floresta de Maryland para gravar um documentário sobre uma lenda local. Anos depois, a câmera que usavam é encontrada.', trailer: '' },
@@ -22,3 +24,51 @@ const filmes = {
   ]
 };
 
+let idadeUsuario = 0;
+
+function inserirNome() {
+  let nomeUsuario = prompt("Qual o seu nome?");
+  let elemento = document.querySelector("#nome-usuario");
+  elemento.textContent = `Olá, ${nomeUsuario}! Espero te ajudar a escolher um filme!`;
+}
+
+function validarIdade() {
+  const input = document.getElementById('idade');
+  idadeUsuario = parseInt(input.value);
+  if (!isNaN(idadeUsuario) && idadeUsuario >= 0) {
+    document.getElementById('menu-generos').classList.remove('oculto');
+  } else {
+    alert('Por favor, digite uma idade válida.');
+  }
+}
+
+function mostrarFilmes(genero) {
+  const container = document.getElementById('conteudo-filmes');
+  container.innerHTML = '';
+
+  filmes[genero].forEach(filme => {
+    if (verificarClassificacao(filme.classificacao)) {
+      const div = document.createElement('div');
+      div.classList.add('filme');
+
+      div.innerHTML = `
+        <h2>${filme.nome}</h2>
+        <img src="${filme.imagem}" alt="${filme.nome}" />
+        <p><strong>Classificação:</strong> ${filme.classificacao} anos</p>
+        <p><strong>Ano:</strong> ${filme.ano}</p>
+        <p><strong>Duração:</strong> ${filme.duracao}</p>
+        <p><strong>Sinopse:</strong> ${filme.sinopse}</p>
+        <iframe src="${filme.trailer}" allowfullscreen></iframe>
+      `;
+
+      container.appendChild(div);
+    }
+  });
+}
+
+function verificarClassificacao(classificacao) {
+  if (classificacao === 'Livre') return true;
+  return idadeUsuario >= parseInt(classificacao);
+}
+
+inserirNome();
