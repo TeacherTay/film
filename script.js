@@ -1,116 +1,145 @@
-let campoGenero, campoIdade, tela = "inicio", botaoComecar;
-let filmeAtual;
-
-function setup() {
-  let canvas = createCanvas(windowWidth, windowHeight);
-  canvas.parent("interface-p5");
-
-  textFont("Georgia");
-
-  botaoComecar = createButton("Começar");
-  botaoComecar.position(width / 2 - 50, height / 2 + 80);
-  botaoComecar.mousePressed(() => {
-    tela = "principal";
-    botaoComecar.hide();
-    iniciarInterface();
-  });
-}
-
-function iniciarInterface() {
-  createElement("h2", "TAYNAFLIX – Recomendador de Filmes").position(50, 20);
-  createSpan("Sua idade: ").position(50, 80);
-  campoIdade = createInput("12");
-  campoIdade.position(130, 80);
-
-  createSpan("Gênero favorito: ").position(50, 120);
-  campoGenero = createSelect();
-  campoGenero.position(200, 120);
-  campoGenero.option("Animação");
-  campoGenero.option("Romance");
-  campoGenero.option("Terror");
-}
-
-function draw() {
-  clear();
-
-  if (tela === "inicio") {
-    fill(255);
-    textAlign(CENTER, CENTER);
-    textSize(48);
-    text("Bem-vindo ao TAYNAFLIX", width / 2, height / 2 - 60);
-    textSize(20);
-    text("Descubra filmes incríveis com base em sua idade e gosto!", width / 2, height / 2);
-  } else if (tela === "principal") {
-    let idade = int(campoIdade.value());
-    let genero = campoGenero.value();
-    filmeAtual = recomendarFilme(idade, genero);
-
-    fill(255);
-    textAlign(LEFT, TOP);
-    textSize(28);
-    text(filmeAtual.titulo, 50, 180);
-    textSize(16);
-    text(filmeAtual.sinopse, 50, 220, 500);
-
-    if (filmeAtual.imagem) {
-      loadImage(filmeAtual.imagem, img => {
-        image(img, width - 360, 180, 300, 180);
-      });
+const filmes = {
+  terror: [
+    { 
+      nome: 'A Casa Monstro', 
+      imagem: 'acasamonstro.jpg', 
+      classificacao: 'Livre', 
+      ano: 2006, 
+      duracao: '1h31min', 
+      sinopse: 'Nenhum adulto acredita quando três adolescentes falam que uma casa no bairro é uma criatura perigosa. Com o Dia das Bruxas se aproximando, eles têm que descobrir uma forma de destruir a casa antes que ela faça mal a crianças inocentes.', 
+      trailer: 'linkacasamonstro' 
+    },
+    { 
+      nome: 'Coraline e o Mundo Secreto', 
+      imagem: 'coraline.jpg', 
+      classificacao: '10', 
+      ano: 2009, 
+      duracao: '1h40min', 
+      sinopse: 'Enquanto explora sua nova casa à noite, Coraline descobre uma porta secreta que contém um mundo parecido com o dela, porém melhor em muitas maneiras. Logo percebe que segredos estranhos estão em ação, e que a outra mãe tenta mantê-la eternamente nesse mundo paralelo.', 
+      trailer: 'linkcoraline' 
+    },
+    { 
+      nome: 'A Bruxa de Blair', 
+      imagem: 'abruxadeblair.jpg', 
+      classificacao: '12', 
+      ano: 1999, 
+      duracao: '1h21min', 
+      sinopse: 'Um grupo de três jovens cineastas desaparece ao entrar em uma floresta de Maryland para gravar um documentário sobre uma lenda local. Anos depois, a câmera que usavam é encontrada.', 
+      trailer: 'linkabruxadeblair' 
+    },
+    { 
+      nome: 'O Iluminado', 
+      imagem: 'oiluminado.jpg', 
+      classificacao: '14', 
+      ano: 1980, 
+      duracao: '2h26min', 
+      sinopse: 'Jack Torrance se torna caseiro do isolado Hotel Overlook. Enquanto tenta escrever, começa a enlouquecer e a aterrorizar sua família ao descobrir os segredos sombrios do hotel.', 
+      trailer: 'linkoiluminado' 
+    },
+    { 
+      nome: 'Corra!', 
+      imagem: 'corra.jpg', 
+      classificacao: '16', 
+      ano: 2017, 
+      duracao: '1h44min', 
+      sinopse: 'Chris, um jovem fotógrafo negro, vai conhecer os pais de sua namorada branca. Na luxuosa propriedade da família, percebe que algo muito perturbador está acontecendo.', 
+      trailer: 'linkcorra' 
     }
+  ],
 
-    if (filmeAtual.trailer) {
-      let link = createA(filmeAtual.trailer, "Assistir Trailer", "_blank");
-      link.position(50, 350);
+  comedia: [
+    { 
+      nome: 'Xuxa Gêmeas', 
+      imagem: 'xuxagemeas.jpg', 
+      classificacao: 'Livre', 
+      ano: 2006, 
+      duracao: '1h40min', 
+      sinopse: 'A malvada Elisabeth quer herdar o império gráfico do pai, enquanto a doce Mel luta para manter aberta sua escola. O caminho das duas se cruza, sem saberem que são irmãs gêmeas.', 
+      trailer: 'linkxuxagemeas' 
+    },
+    { 
+      nome: 'Klaus', 
+      imagem: 'klaus.jpg', 
+      classificacao: '10', 
+      ano: 2019, 
+      duracao: '1h36min', 
+      sinopse: 'Um carteiro egoísta e um fabricante de brinquedos solitário cultivam uma amizade improvável e levam alegria a uma cidade fria e sombria.', 
+      trailer: 'linkklaus' 
+    },
+    { 
+      nome: 'Esposa de Mentirinha', 
+      imagem: 'esposadementirinha.jpg', 
+      classificacao: '12', 
+      ano: 2011, 
+      duracao: '1h57min', 
+      sinopse: 'Danny, um cirurgião plástico, finge ser casado com sua melhor amiga para conquistar uma mulher. A mentira sai do controle, gerando muitas confusões e risadas.', 
+      trailer: 'linkesposadementirinha' 
+    },
+    { 
+      nome: 'As Branquelas', 
+      imagem: 'asbranquelas.jpg', 
+      classificacao: '14', 
+      ano: 2004, 
+      duracao: '1h49min', 
+      sinopse: 'Dois agentes do FBI se disfarçam de socialites brancas após uma missão dar errado, resultando em situações hilárias e completamente absurdas.', 
+      trailer: 'linkasbranquelas' 
+    },
+    { 
+      nome: 'Os Novatos', 
+      imagem: 'osnovatos.jpg', 
+      classificacao: '16', 
+      ano: 2023, 
+      duracao: '1h45min', 
+      sinopse: 'Durante a primeira semana do ensino médio, quatro adolescentes encaram uma noite de caos e excessos na maior festa do ano.', 
+      trailer: 'linkosnovatos' 
     }
+  ],
 
-    tela = "exibindo";
-  }
-}
-
-function recomendarFilme(idade, genero) {
-  let filmes = {
-    "Animação": [
-      {
-        titulo: "Divertida Mente",
-        idadeMin: 0,
-        sinopse: "As emoções ganham vida na mente de uma menina.",
-        imagem: "https://upload.wikimedia.org/wikipedia/pt/3/39/Inside_Out_p%C3%B4ster.png",
-        trailer: "https://www.youtube.com/watch?v=JYpD2L_8jG0"
-      }
-    ],
-    "Romance": [
-      {
-        titulo: "Para Todos os Garotos que Já Amei",
-        idadeMin: 10,
-        sinopse: "Cartas secretas de amor viram um caos na vida de Lara Jean.",
-        imagem: "https://upload.wikimedia.org/wikipedia/pt/0/0e/To_All_the_Boys_I%27ve_Loved_Before.png",
-        trailer: "https://www.youtube.com/watch?v=mTLc_RzqaJc"
-      }
-    ],
-    "Terror": [
-      {
-        titulo: "Coraline e o Mundo Secreto",
-        idadeMin: 10,
-        sinopse: "Coraline encontra uma porta para um mundo assustadoramente perfeito.",
-        imagem: "https://upload.wikimedia.org/wikipedia/pt/6/6f/Coraline_poster.jpg",
-        trailer: "https://www.youtube.com/watch?v=m9bOpeuvNwY"
-      }
-    ]
-  };
-
-  let lista = filmes[genero];
-  for (let i = lista.length - 1; i >= 0; i--) {
-    if (idade >= lista[i].idadeMin) return lista[i];
-  }
-
-  return {
-    titulo: "Nenhum filme disponível",
-    sinopse: "Nenhum filme encontrado para essa idade e gênero.",
-    imagem: "",
-    trailer: ""
-  };
-}
-
-function windowResized() {
-  resizeCanvas(windowWidth, windowHeight);
-}
+  drama: [
+    { 
+      nome: 'À Procura da Felicidade', 
+      imagem: 'aprocudadahfelicidade.jpg', 
+      classificacao: 'Livre', 
+      ano: 2006, 
+      duracao: '1h57min', 
+      sinopse: 'Chris enfrenta problemas financeiros e precisa cuidar sozinho do filho. Mesmo sem ter onde morar, ele luta por um futuro melhor com determinação e esperança.', 
+      trailer: 'linkaprocudadahfelicidade' 
+    },
+    { 
+      nome: 'Pequeno Segredo', 
+      imagem: 'pequenosegredo.jpg', 
+      classificacao: '10', 
+      ano: 2016, 
+      duracao: '2h00min', 
+      sinopse: 'Três histórias paralelas se conectam por meio de um segredo guardado pela família da jovem Kat, colocando sonhos e esperanças à prova.', 
+      trailer: 'linkpequenosegredo' 
+    },
+    { 
+      nome: 'O Menino que Descobriu o Vento', 
+      imagem: 'omeninoquedescobriuovento.jpg', 
+      classificacao: '12', 
+      ano: 2019, 
+      duracao: '1h53min', 
+      sinopse: 'Um jovem do Malawi constrói uma turbina de vento para salvar sua vila da fome, mostrando que a educação e a perseverança podem mudar o mundo.', 
+      trailer: 'linkomeninoquedescobriuovento' 
+    },
+    { 
+      nome: 'Ainda Estou Aqui', 
+      imagem: 'aindaestoaqui.jpg', 
+      classificacao: '14', 
+      ano: 2024, 
+      duracao: '2h05min', 
+      sinopse: 'Durante a ditadura militar, Eunice Paiva busca pelo marido desaparecido e precisa se reinventar para criar os filhos e lutar por justiça.', 
+      trailer: 'linkaindaestoaqui' 
+    },
+    { 
+      nome: 'A Onda', 
+      imagem: 'aonda.jpg', 
+      classificacao: '16', 
+      ano: 2008, 
+      duracao: '1h47min', 
+      sinopse: 'Um professor ensina sobre regimes autoritários e, sem perceber, cria um movimento estudantil que foge de controle, mostrando como o fascismo pode renascer.', 
+      trailer: 'linkaonda' 
+    }
+  ]
+};
