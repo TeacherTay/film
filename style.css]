@@ -1,66 +1,65 @@
-/* Reset e fundo de tela cheia */
-html, body {
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f2f2f2;
   margin: 0;
   padding: 0;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  font-family: 'Segoe UI', sans-serif;
-  background: linear-gradient(135deg, #8a2be2, #da70d6, #ffb6c1);
-  background-size: 400% 400%;
-  animation: gradient 15s ease infinite;
 }
 
-@keyframes gradient {
-  0% {background-position: 0% 50%;}
-  50% {background-position: 100% 50%;}
-  100% {background-position: 0% 50%;}
-}
-
-#interface-p5 {
-  width: 100vw;
-  height: 100vh;
-  position: relative;
-}
-
-/* Estilos para elementos criados pelo p5.js */
-h2, span, input, select, a, button {
+header {
+  background-color: #333;
   color: white;
-  font-family: 'Georgia', serif;
+  padding: 20px;
+  text-align: center;
 }
 
-input, select {
-  padding: 6px;
+.mensagem-nome {
+  font-size: 18px;
+  margin: 0;
+  color: #ffe082;
+}
+
+.idade-input {
+  margin-top: 15px;
+}
+
+nav {
+  text-align: center;
+  margin: 20px;
+}
+
+nav button {
   margin: 5px;
-  border-radius: 6px;
-  border: none;
-}
-
-button {
-  background-color: white;
-  color: #8a2be2;
-  font-weight: bold;
-  border: none;
   padding: 10px 20px;
-  border-radius: 8px;
+  font-size: 16px;
   cursor: pointer;
+  border: none;
+  background-color: #4CAF50;
+  color: white;
+  border-radius: 5px;
 }
 
-button:hover {
-  background-color: #f0f0f0;
+.oculto {
+  display: none;
 }
 
-a {
-  display: inline-block;
+.filme {
+  background-color: white;
+  margin: 20px;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.filme img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 10px 0;
+}
+
+.filme iframe {
+  width: 100%;
+  height: 315px;
+  border: none;
   margin-top: 10px;
-  background: white;
-  padding: 8px 14px;
-  border-radius: 8px;
-  color: #8a2be2;
-  text-decoration: none;
-  font-weight: bold;
-}
-
-a:hover {
-  background: #f0f0f0;
 }
